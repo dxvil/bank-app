@@ -5,33 +5,27 @@ import java.util.concurrent.locks.ReentrantLock;
 import threads.services.BankQueue;
 
 public class TellersThread implements Runnable {
-    final BankQueue customerQueue = new BankQueue();
-    ReentrantLock reentrantLock;
-    
-    public TellersThread(ReentrantLock reentrantLock) {
-        this.reentrantLock = reentrantLock;
+    ReentrantLock reentrantLock = new ReentrantLock();
+    BankQueue customerQueue;
+
+    public TellersThread(BankQueue customerQueue) {
+        this.customerQueue = customerQueue;
     }
 
     @Override
     public void run() {
         while(true) {
-            System.out.println(customerQueue.customerQueue.size() + " size");
-            try {
-                if(customerQueue.customerQueue.size() != 0) {
-                    reentrantLock.lock();
-                    System.out.println("Removin");
-                    removeCustomerFromQueue();
-                    System.out.println(customerQueue.customerQueue);
+            if(customerQueue.customerQueue.size() == 0){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch(Exception ex) {
-                ex.printStackTrace();
-            } finally {
+            } else {
+                reentrantLock.lock();
+                customerQueue.removeCustomerFromQueue();
                 reentrantLock.unlock();
-            }
-        }
+            }   
     }
-
-    private void removeCustomerFromQueue() {
-            customerQueue.removeCustomerFromQueue();
-    }
+}
 }

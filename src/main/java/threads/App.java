@@ -1,6 +1,7 @@
 package threads;
 
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import threads.services.BankQueue;
 import threads.threads.CustomerThread;
@@ -10,11 +11,11 @@ public class App
 {
     public static void main( String[] args )
     {
-        ReentrantLock reentrantLock = new ReentrantLock();
-        Thread tellersThread = new Thread(new TellersThread(reentrantLock));
-        Thread customerThread = new Thread(new CustomerThread(reentrantLock));
+        final BankQueue customerQueue = new BankQueue();
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
         
-        customerThread.start();
-        tellersThread.start();
+        executor.execute(new CustomerThread(customerQueue));
+        executor.execute(new TellersThread(customerQueue));
+        executor.shutdown();
     }
 }
