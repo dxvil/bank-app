@@ -1,8 +1,8 @@
 package threads.threads;
 
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
 import threads.entities.CustomerEntity;
@@ -10,19 +10,19 @@ import threads.services.BankQueue;
 import threads.services.CreateCustomer;
 
 public class CustomerThread implements Runnable {
-    final Random r = new Random();
     final CreateCustomer createCustomer = new CreateCustomer();
-    ReentrantLock reentrantLock = new ReentrantLock();
-    BankQueue customerQueue;
+    final ReentrantLock reentrantLock = new ReentrantLock();
+    private BankQueue customerQueue;
 
     public CustomerThread(BankQueue customerQueue) {
         this.customerQueue = customerQueue;
+
     }
 
     @Override
     public void run() {
         while(true) {
-            int seconds = (r.nextInt(60 + 1 - 1) + 1) * 100;
+            int seconds = (ThreadLocalRandom.current().nextInt(60 + 1 - 1) + 1) * 100;
 
             System.out.println(seconds);
 

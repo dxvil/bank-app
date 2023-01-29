@@ -1,18 +1,17 @@
 package threads.services;
 
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 import threads.entities.CustomerEntity;
 
 public class CreateCustomer {
-    final Random r = new Random();
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    final private ExecutorService executor = Executors.newSingleThreadExecutor();
     
     private CustomerEntity createCustomer() {
-        double money = r.nextDouble();
+        double money = ThreadLocalRandom.current().nextDouble();
 
         CustomerEntity newCustomer = new CustomerEntity(money);
 

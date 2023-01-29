@@ -5,8 +5,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import threads.services.BankQueue;
 
 public class TellersThread implements Runnable {
-    ReentrantLock reentrantLock = new ReentrantLock();
-    BankQueue customerQueue;
+    final ReentrantLock reentrantLock = new ReentrantLock();
+    private BankQueue customerQueue;
 
     public TellersThread(BankQueue customerQueue) {
         this.customerQueue = customerQueue;
