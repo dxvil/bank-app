@@ -8,14 +8,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import threads.entities.CustomerEntity;
 
 public class CreateCustomer {
-    final private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
     
     private CustomerEntity createCustomer() {
         double money = ThreadLocalRandom.current().nextDouble();
 
-        CustomerEntity newCustomer = new CustomerEntity(money);
-
-        return newCustomer;
+        return new CustomerEntity(money);
     }
 
     public Future<CustomerEntity> createCustomerWithTimeout(int seconds) {  

@@ -33,14 +33,9 @@ public class CustomerThread implements Runnable {
 
             try {
                 Thread.sleep(seconds);
-            } catch (InterruptedException e) {
+                customerResult = customer.get();
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    customerResult = customer.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
             }
 
             if(customerResult != null) {
